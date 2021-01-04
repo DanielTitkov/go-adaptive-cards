@@ -26,6 +26,10 @@ const (
 	TextBlockType = "TextBlock"
 	// InputTextType is type for Input.Text
 	InputTextType = "Input.Text"
+	// ColumnSetType is type for ColumnSet
+	ColumnSetType = "ColumnSet"
+	// ColumnType is type for Column
+	ColumnType = "Column"
 )
 
 // Card is basic adaptive cards type.

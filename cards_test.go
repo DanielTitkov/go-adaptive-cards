@@ -116,6 +116,26 @@ var exampleCardJSON string = `{
 	]
   }`
 
+//   {
+// 	"type": "Column",
+// 	"width": "stretch",
+// 	"items": [
+// 	  {
+// 		"type": "TextBlock",
+// 		"text": "Matt Hidinger",
+// 		"weight": "bolder",
+// 		"wrap": true
+// 	  },
+// 	  {
+// 		"type": "TextBlock",
+// 		"spacing": "none",
+// 		"text": "Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}",
+// 		"isSubtle": true,
+// 		"wrap": true
+// 	  }
+// 	]
+//   }
+
 func TestExampleCard(t *testing.T) {
 	c := New([]Node{
 		Container{
@@ -126,6 +146,24 @@ func TestExampleCard(t *testing.T) {
 					Text:   "Publish Adaptive Card schema",
 					Weight: "bolder",
 					Size:   "medium",
+				},
+				ColumnSet{
+					Type: ColumnSetType,
+					Columns: []Column{
+						{
+							Type:  ColumnType,
+							Width: "auto",
+							Items: []Node{
+								TextBlock{},
+								TextBlock{},
+							},
+						},
+						{
+							Type:  ColumnType,
+							Width: "stretch",
+							Items: []Node{},
+						},
+					},
 				},
 			},
 		},
