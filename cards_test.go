@@ -1,9 +1,224 @@
 package cards
 
 import (
+	"fmt"
 	"io/ioutil"
 	"testing"
 )
+
+func TestInputsCard(t *testing.T) {
+	inputsCardJSON := mustReadFile("./test/inputs.json")
+
+	var choices []InputChoice
+	for i, color := range []string{"Red", "Green", "Blue"} {
+		choices = append(choices, InputChoice{
+			Title: color,
+			Value: fmt.Sprint(i + 1),
+		})
+	}
+
+	c := New([]Node{
+		TextBlock{
+			Type:                TextBlockType,
+			Size:                "Medium",
+			Weight:              "Bolder",
+			Text:                "Input.Text elements",
+			HorizontalAlignment: "Center",
+			Wrap:                TruePtr(),
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Name",
+			Wrap: TruePtr(),
+		},
+		InputText{
+			Type:  InputTextType,
+			Style: "text",
+			ID:    "SimpleVal",
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Homepage",
+			Wrap: TruePtr(),
+		},
+		InputText{
+			Type:  InputTextType,
+			Style: "url",
+			ID:    "UrlVal",
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Email",
+			Wrap: TruePtr(),
+		},
+		InputText{
+			Type:  InputTextType,
+			Style: "email",
+			ID:    "EmailVal",
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Phone",
+			Wrap: TruePtr(),
+		},
+		InputText{
+			Type:  InputTextType,
+			Style: "tel",
+			ID:    "TelVal",
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Comments",
+			Wrap: TruePtr(),
+		},
+		InputText{
+			Type:        InputTextType,
+			Style:       "text",
+			ID:          "MultiLineVal",
+			IsMultiline: TruePtr(),
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Quantity",
+			Wrap: TruePtr(),
+		},
+		InputNumber{
+			Type:  InputNumberType,
+			ID:    "NumVal",
+			Max:   5,
+			Min:   -5,
+			Value: 1,
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Due Date",
+			Wrap: TruePtr(),
+		},
+		InputDate{
+			Type:  InputDateType,
+			ID:    "DateVal",
+			Value: "2017-09-20",
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Start time",
+			Wrap: TruePtr(),
+		},
+		InputTime{
+			Type:  InputTimeType,
+			ID:    "TimeVal",
+			Value: "16:59",
+		},
+		TextBlock{
+			Type:                TextBlockType,
+			Text:                "Input ChoiceSet",
+			Size:                "Medium",
+			Weight:              "Bolder",
+			HorizontalAlignment: "Center",
+			Wrap:                TruePtr(),
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "What color do you want? (compact)",
+			Wrap: TruePtr(),
+		},
+		InputChoiceSet{
+			Type:    InputChoiceSetType,
+			ID:      "CompactSelectVal",
+			Value:   "1",
+			Choices: choices,
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "What color do you want? (expanded)",
+			Wrap: TruePtr(),
+		},
+		InputChoiceSet{
+			Type:    InputChoiceSetType,
+			ID:      "SingleSelectVal",
+			Value:   "1",
+			Style:   "expanded",
+			Choices: choices,
+		},
+		TextBlock{
+			Type: TextBlockType,
+			Text: "What color do you want? (multiselect)",
+			Wrap: TruePtr(),
+		},
+		InputChoiceSet{
+			Type:          InputChoiceSetType,
+			ID:            "MultiSelectVal",
+			Value:         "1,3",
+			IsMultiSelect: TruePtr(),
+			Choices:       choices,
+		},
+		TextBlock{
+			Type:                TextBlockType,
+			Text:                "Input.Toggle",
+			Size:                "Medium",
+			Weight:              "Bolder",
+			HorizontalAlignment: "Center",
+			Wrap:                TruePtr(),
+		},
+		InputToggle{
+			Type:  InputToggleType,
+			Title: "I accept the terms and conditions (True/False)",
+			ID:    "AcceptsTerms",
+			Wrap:  FalsePtr(),
+			Value: "false",
+		},
+		InputToggle{
+			Type:     InputToggleType,
+			Title:    "Red cars are better than other cars",
+			ID:       "ColorPreference",
+			Wrap:     FalsePtr(),
+			Value:    "NotRedCars",
+			ValueOff: "RedCars",
+			ValueOn:  "NotRedCars",
+		},
+	}, []Node{
+		ActionSubmit{
+			Type:  ActionSubmitType,
+			Title: "Submit",
+			Data: map[string]interface{}{
+				"id": "1234567890",
+			},
+		},
+		ActionShowCard{
+			Type:  ActionShowCardType,
+			Title: "Show Card",
+			Card: NestedCard{
+				Type:   AdaptiveCardType,
+				Schema: DefaultSchema,
+				Body: []Node{
+					TextBlock{
+						Type: TextBlockType,
+						Text: "Enter comment",
+						Wrap: TruePtr(),
+					},
+					InputText{
+						Type:  InputTextType,
+						Style: "text",
+						ID:    "CommentVal",
+					},
+				},
+				Actions: []Node{
+					ActionSubmit{
+						Type:  ActionSubmitType,
+						Title: "OK",
+					},
+				},
+			},
+		},
+	}).WithVersion(Version1).WithSchema(DefaultSchema)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != inputsCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", inputsCardJSON, got)
+	}
+}
 
 func TestToggleCard(t *testing.T) {
 	toggleCardJSON := mustReadFile("./test/toggle.json")

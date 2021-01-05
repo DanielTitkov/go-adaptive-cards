@@ -27,8 +27,6 @@ const (
 	ContainerType = "Container"
 	// TextBlockType is type for text block
 	TextBlockType = "TextBlock"
-	// InputTextType is type for Input.Text
-	InputTextType = "Input.Text"
 	// ColumnSetType is type for ColumnSet
 	ColumnSetType = "ColumnSet"
 	// ColumnType is type for Column
@@ -45,6 +43,18 @@ const (
 	ActionOpenURLType = "Action.OpenUrl"
 	// ActionToggleVisibilityType is type for Action.ToggleVisibility
 	ActionToggleVisibilityType = "Action.ToggleVisibility"
+	// InputTextType is type for Input.Text
+	InputTextType = "Input.Text"
+	// InputNumberType is type for Input.Number
+	InputNumberType = "Input.Number"
+	// InputTimeType is type for Imput.Time
+	InputTimeType = "Input.Time"
+	// InputDateType is type for Input.Date
+	InputDateType = "Input.Date"
+	// InputChoiceSetType is type for Input.ChoiceSet
+	InputChoiceSetType = "Input.ChoiceSet"
+	// InputToggleType is type for Input.Toggle
+	InputToggleType = "Input.Toggle"
 )
 
 // Card is basic adaptive cards type.

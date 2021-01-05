@@ -32,9 +32,9 @@ func (n ActionShowCard) validate() error {
 // It is up to the client to determine how this data is processed.
 // See https://docs.microsoft.com/en-us/adaptive-cards/authoring-cards/input-validation for more details.
 type ActionSubmit struct {
-	Type             string `json:"type"` // required
-	Data             string `json:"data,omitempty"`
-	AssociatedInputs string `json:"associatedInputs,omitempty"`
+	Type             string                 `json:"type"` // required
+	Data             map[string]interface{} `json:"data,omitempty"`
+	AssociatedInputs string                 `json:"associatedInputs,omitempty"`
 	// inherited
 	Title    string            `json:"title,omitempty"`
 	IconURL  string            `json:"iconUrl,omitempty"`

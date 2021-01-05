@@ -1,0 +1,239 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Input.Text elements",
+      "horizontalAlignment": "Center",
+      "size": "Medium",
+      "weight": "Bolder",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "Name",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "SimpleVal",
+      "style": "text"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Homepage",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "UrlVal",
+      "style": "url"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Email",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "EmailVal",
+      "style": "email"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Phone",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "TelVal",
+      "style": "tel"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Comments",
+      "wrap": true
+    },
+    {
+      "type": "Input.Text",
+      "id": "MultiLineVal",
+      "isMultiline": true,
+      "style": "text"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Quantity",
+      "wrap": true
+    },
+    {
+      "type": "Input.Number",
+      "id": "NumVal",
+      "max": 5,
+      "min": -5,
+      "value": 1
+    },
+    {
+      "type": "TextBlock",
+      "text": "Due Date",
+      "wrap": true
+    },
+    {
+      "type": "Input.Date",
+      "id": "DateVal",
+      "value": "2017-09-20"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Start time",
+      "wrap": true
+    },
+    {
+      "type": "Input.Time",
+      "id": "TimeVal",
+      "value": "16:59"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Input ChoiceSet",
+      "horizontalAlignment": "Center",
+      "size": "Medium",
+      "weight": "Bolder",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "What color do you want? (compact)",
+      "wrap": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "choices": [
+        {
+          "title": "Red",
+          "value": "1"
+        },
+        {
+          "title": "Green",
+          "value": "2"
+        },
+        {
+          "title": "Blue",
+          "value": "3"
+        }
+      ],
+      "id": "CompactSelectVal",
+      "value": "1"
+    },
+    {
+      "type": "TextBlock",
+      "text": "What color do you want? (expanded)",
+      "wrap": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "choices": [
+        {
+          "title": "Red",
+          "value": "1"
+        },
+        {
+          "title": "Green",
+          "value": "2"
+        },
+        {
+          "title": "Blue",
+          "value": "3"
+        }
+      ],
+      "id": "SingleSelectVal",
+      "style": "expanded",
+      "value": "1"
+    },
+    {
+      "type": "TextBlock",
+      "text": "What color do you want? (multiselect)",
+      "wrap": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "choices": [
+        {
+          "title": "Red",
+          "value": "1"
+        },
+        {
+          "title": "Green",
+          "value": "2"
+        },
+        {
+          "title": "Blue",
+          "value": "3"
+        }
+      ],
+      "id": "MultiSelectVal",
+      "isMultiSelect": true,
+      "value": "1,3"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Input.Toggle",
+      "horizontalAlignment": "Center",
+      "size": "Medium",
+      "weight": "Bolder",
+      "wrap": true
+    },
+    {
+      "type": "Input.Toggle",
+      "title": "I accept the terms and conditions (True/False)",
+      "id": "AcceptsTerms",
+      "value": "false",
+      "wrap": false
+    },
+    {
+      "type": "Input.Toggle",
+      "title": "Red cars are better than other cars",
+      "id": "ColorPreference",
+      "value": "NotRedCars",
+      "valueOff": "RedCars",
+      "valueOn": "NotRedCars",
+      "wrap": false
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "data": {
+        "id": "1234567890"
+      },
+      "title": "Submit"
+    },
+    {
+      "type": "Action.ShowCard",
+      "card": {
+        "type": "AdaptiveCard",
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Enter comment",
+            "wrap": true
+          },
+          {
+            "type": "Input.Text",
+            "id": "CommentVal",
+            "style": "text"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "OK"
+          }
+        ]
+      },
+      "title": "Show Card"
+    }
+  ]
+}
