@@ -30,23 +30,42 @@ const (
 	ColumnSetType = "ColumnSet"
 	// ColumnType is type for Column
 	ColumnType = "Column"
+	// ImageType is type for Image
+	ImageType = "Image"
+	// FactSetType is type for FactSet
+	FactSetType = "FactSet"
+	// ActionShowCardType is type for Action.ShowCard
+	ActionShowCardType = "Action.ShowCard"
+	// ActionSubmitType is type for Action.Submit
+	ActionSubmitType = "Action.Submit"
+	// ActionOpenURLType is type for Action.OpenUrl
+	ActionOpenURLType = "Action.OpenUrl"
 )
 
 // Card is basic adaptive cards type.
 type Card struct {
-	Type    string `json:"type"`    // required
-	Version string `json:"version"` // required
-	Schema  string `json:"$schema"`
-	Body    []Node `json:"body,omitempty"`
+	Type                     string `json:"type"`    // required
+	Version                  string `json:"version"` // required
+	Schema                   string `json:"$schema"`
+	Body                     []Node `json:"body,omitempty"`
+	Actions                  []Node `json:"actions,omitempty"`
+	SelectAction             []Node `json:"selectAction,omitempty"`
+	FallbackText             string `json:"fallbackText,omitempty"`
+	BackgroundImage          string `json:"backgroundImage,omitempty"`
+	MinHeight                string `json:"minHeight,omitempty"`
+	Speak                    string `json:"speak,omitempty"`
+	Lang                     string `json:"lang,omitempty"`
+	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
 }
 
 // New returns a card with provided body and default schema
-func New(body []Node) *Card {
+func New(body []Node, actions []Node) *Card {
 	return &Card{
 		Schema:  DefaultSchema,
 		Type:    AdaptiveCardType,
 		Version: Version13,
 		Body:    body,
+		Actions: actions,
 	}
 }
 
@@ -64,12 +83,17 @@ type Node interface {
 // Validate validates card (required fields etc)
 func (c *Card) Validate() error {
 	if c.Type != AdaptiveCardType {
-		return fmt.Errorf("type must be %s", AdaptiveCardType)
+		return fmt.Errorf("Card type must be %s", AdaptiveCardType)
 	}
 	if c.Version == "" {
 		return errors.New("card version is required")
 	}
 	for _, node := range c.Body {
+		if err := node.validate(); err != nil {
+			return err
+		}
+	}
+	for _, node := range c.Actions {
 		if err := node.validate(); err != nil {
 			return err
 		}
@@ -109,4 +133,37 @@ func (c *Card) StringIndent(prefix string, indent string) (string, error) {
 		return "", err
 	}
 	return string(cardJSON), nil
+}
+
+// NestedCard is similar to adaptive card but doesn't require version and schema
+type NestedCard struct {
+	Type                     string `json:"type"` // required
+	Version                  string `json:"version,omitempty"`
+	Schema                   string `json:"$schema,omitempty"`
+	Body                     []Node `json:"body,omitempty"`
+	Actions                  []Node `json:"actions,omitempty"`
+	SelectAction             []Node `json:"selectAction,omitempty"`
+	FallbackText             string `json:"fallbackText,omitempty"`
+	BackgroundImage          string `json:"backgroundImage,omitempty"`
+	MinHeight                string `json:"minHeight,omitempty"`
+	Speak                    string `json:"speak,omitempty"`
+	Lang                     string `json:"lang,omitempty"`
+	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
+}
+
+func (n *NestedCard) validate() error {
+	if n.Type != AdaptiveCardType {
+		return fmt.Errorf("NestedCard type must be %s", AdaptiveCardType)
+	}
+	for _, node := range n.Body {
+		if err := node.validate(); err != nil {
+			return err
+		}
+	}
+	for _, node := range n.Actions {
+		if err := node.validate(); err != nil {
+			return err
+		}
+	}
+	return nil
 }

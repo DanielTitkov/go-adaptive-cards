@@ -60,7 +60,7 @@ func (n ColumnSet) validate() error {
 // Column defines a container that is part of a ColumnSet.
 type Column struct {
 	Type                     string `json:"type"` // required - it is not stated in a.c. docs but actually has to be "Column"
-	Items                    []Node `json:"columns,omitempty"`
+	Items                    []Node `json:"items,omitempty"`
 	BackgroundImage          string `json:"backgroundImage,omitempty"`
 	Bleed                    bool   `json:"bleed,omitempty"`
 	Fallback                 Node   `json:"fallback,omitempty"`
@@ -85,6 +85,51 @@ func (c Column) validate() error {
 		if err := node.validate(); err != nil {
 			return err
 		}
+	}
+	return nil
+}
+
+// FactSet element displays a series of facts (i.e. name/value pairs) in a tabular form.
+type FactSet struct {
+	Type  string `json:"type"`  // required - must be "FactSet"
+	Facts []Fact `json:"facts"` // required
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator bool              `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible bool              `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n FactSet) validate() error {
+	if n.Type != FactSetType {
+		return fmt.Errorf("FactSet type must be %s", FactSetType)
+	}
+	if len(n.Facts) < 1 {
+		return errors.New("FactSet must have facts")
+	}
+	for _, f := range n.Facts {
+		if err := f.validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// Fact describes a Fact in a FactSet as a key/value pair.
+type Fact struct {
+	Title string `json:"title"` // required
+	Value string `json:"value"` // required
+}
+
+func (f Fact) validate() error {
+	if f.Title == "" {
+		return errors.New("Fact must have title")
+	}
+	if f.Value == "" {
+		return errors.New("Fact must have value")
 	}
 	return nil
 }

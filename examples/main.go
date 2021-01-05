@@ -17,7 +17,7 @@ func main() {
 				cards.TextBlock{
 					Type:     cards.TextBlockType,
 					Text:     "foo",
-					IsSublte: true,
+					IsSubtle: true,
 				},
 			},
 		},
