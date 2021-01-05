@@ -33,7 +33,7 @@ type ColumnSet struct {
 	Columns             []Column `json:"columns,omitempty"` // TODO: maybe make it a Node
 	SelectAction        []Node   `json:"selectAction,omitempty"`
 	Style               []Node   `json:"style,omitempty"` // FIXME
-	Bleed               bool     `json:"bleed,omitempty"`
+	Bleed               *bool    `json:"bleed,omitempty"`
 	MinHeight           string   `json:"minHeight,omitempty"`
 	HorizontalAlignment string   `json:"horizontalAlignment,omitempty"`
 	// inherited
@@ -41,7 +41,7 @@ type ColumnSet struct {
 	Height    string            `json:"height,omitempty"`
 	Spacing   string            `json:"spacing,omitempty"`
 	ID        string            `json:"id,omitempty"`
-	IsVisible bool              `json:"isVisible,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 
@@ -62,10 +62,10 @@ type Column struct {
 	Type                     string `json:"type"` // required - it is not stated in a.c. docs but actually has to be "Column"
 	Items                    []Node `json:"items,omitempty"`
 	BackgroundImage          string `json:"backgroundImage,omitempty"`
-	Bleed                    bool   `json:"bleed,omitempty"`
+	Bleed                    *bool  `json:"bleed,omitempty"`
 	Fallback                 Node   `json:"fallback,omitempty"`
 	MinHeight                string `json:"minHeight,omitempty"`
-	Separator                bool   `json:"separator,omitempty"`
+	Separator                *bool  `json:"separator,omitempty"`
 	Spacing                  string `json:"spacing,omitempty"`
 	SelectAction             []Node `json:"selectAction,omitempty"`
 	Style                    []Node `json:"style,omitempty"` // FIXME
@@ -73,7 +73,7 @@ type Column struct {
 	Width                    string `json:"width,omitempty"`
 	// inherited
 	ID        string            `json:"id,omitempty"`
-	IsVisible bool              `json:"isVisible,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 
@@ -96,10 +96,10 @@ type FactSet struct {
 	// inherited
 	Fallback  []Node            `json:"fallback,omitempty"`
 	Height    string            `json:"height,omitempty"`
-	Separator bool              `json:"separator,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
 	Spacing   string            `json:"spacing,omitempty"`
 	ID        string            `json:"id,omitempty"`
-	IsVisible bool              `json:"isVisible,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 

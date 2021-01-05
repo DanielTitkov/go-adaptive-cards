@@ -9,7 +9,7 @@ import (
 type InputText struct {
 	Type         string `json:"type"` // required
 	ID           string `json:"id"`   // required
-	IsMultiline  bool   `json:"isMultiline,omitempty"`
+	IsMultiline  *bool  `json:"isMultiline,omitempty"`
 	MaxLength    int64  `json:"maxLength,omitempty"`
 	Placeholder  string `json:"placeholder,omitempty"`
 	Regex        string `json:"regex,omitempty"`
@@ -18,12 +18,12 @@ type InputText struct {
 	Value        string `json:"value,omitempty"`
 	// inherited
 	ErrorMessage string            `json:"errorMessage,omitempty"`
-	IsRequired   bool              `json:"isRequired,omitempty"`
+	IsRequired   *bool             `json:"isRequired,omitempty"`
 	Label        string            `json:"label,omitempty"`
 	Height       string            `json:"height,omitempty"`
-	Separator    bool              `json:"separator,omitempty"`
+	Separator    *bool             `json:"separator,omitempty"`
 	Spacing      string            `json:"spacing,omitempty"`
-	IsVisible    bool              `json:"isVisible,omitempty"`
+	IsVisible    *bool             `json:"isVisible,omitempty"`
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 

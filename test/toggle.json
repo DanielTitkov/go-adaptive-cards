@@ -1,0 +1,92 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.2",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Press the buttons to toggle the images!",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "Here are some images:",
+      "id": "textToToggle",
+      "isVisible": false
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "url": "https://picsum.photos/100/100?image=112",
+              "altText": "sample image 1",
+              "size": "medium",
+              "style": "person",
+              "id": "imageToToggle",
+              "isVisible": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ToggleVisibility",
+      "targetElements": [
+        {
+          "elementId": "textToToggle"
+        },
+        {
+          "elementId": "imageToToggle"
+        }
+      ],
+      "title": "Toggle!"
+    },
+    {
+      "type": "Action.ToggleVisibility",
+      "targetElements": [
+        {
+          "elementId": "textToToggle",
+          "isVisible": true
+        },
+        {
+          "elementId": "imageToToggle",
+          "isVisible": true
+        }
+      ],
+      "title": "Show!"
+    },
+    {
+      "type": "Action.ToggleVisibility",
+      "targetElements": [
+        {
+          "elementId": "textToToggle",
+          "isVisible": false
+        },
+        {
+          "elementId": "imageToToggle",
+          "isVisible": false
+        }
+      ],
+      "title": "Hide!"
+    },
+    {
+      "type": "Action.ToggleVisibility",
+      "targetElements": [
+        {
+          "elementId": "textToToggle",
+          "isVisible": false
+        },
+        {
+          "elementId": "imageToToggle",
+          "isVisible": true
+        }
+      ],
+      "title": "Grain!"
+    }
+  ]
+}

@@ -12,18 +12,18 @@ type TextBlock struct {
 	Color               string `json:"color,omitempty"`
 	FontType            string `json:"fontType,omitempty"` // FIXME this is a special type in a.c.
 	HorizontalAlignment string `json:"horizontalAlignment,omitempty"`
-	IsSubtle            bool   `json:"isSubtle,omitempty"`
+	IsSubtle            *bool  `json:"isSubtle,omitempty"`
 	MaxLines            int64  `json:"maxLines,omitempty"`
 	Size                string `json:"size,omitempty"`
 	Weight              string `json:"weight,omitempty"`
-	Wrap                bool   `json:"wrap,omitempty"`
+	Wrap                *bool  `json:"wrap,omitempty"`
 	// inherited
 	Fallback  []Node            `json:"fallback,omitempty"`
 	Height    string            `json:"height,omitempty"`
-	Separator bool              `json:"separator,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
 	Spacing   string            `json:"spacing,omitempty"`
 	ID        string            `json:"id,omitempty"`
-	IsVisible bool              `json:"isVisible,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 
@@ -51,10 +51,10 @@ type Image struct {
 	Width               string `json:"width,omitempty"`
 	// inherited
 	Fallback  []Node            `json:"fallback,omitempty"`
-	Separator bool              `json:"separator,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
 	Spacing   string            `json:"spacing,omitempty"`
 	ID        string            `json:"id,omitempty"`
-	IsVisible bool              `json:"isVisible,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 

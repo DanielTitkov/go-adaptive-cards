@@ -11,9 +11,12 @@ const (
 	DefaultSchema = "http://adaptivecards.io/schemas/adaptive-card.json"
 	// Version1 is cards verstion 1.0
 	Version1 = "1.0"
+	// Version11 is cards verstion 1.1
+	Version11 = "1.1"
 	// Version12 is cards verstion 1.2
 	Version12 = "1.2"
-	// Version13 is cards verstion 1.3
+	// Version13 is cards verstion 1.3.
+	// Warning maybe not supported by bot framework!
 	Version13 = "1.3"
 
 	// Types
@@ -40,13 +43,15 @@ const (
 	ActionSubmitType = "Action.Submit"
 	// ActionOpenURLType is type for Action.OpenUrl
 	ActionOpenURLType = "Action.OpenUrl"
+	// ActionToggleVisibilityType is type for Action.ToggleVisibility
+	ActionToggleVisibilityType = "Action.ToggleVisibility"
 )
 
 // Card is basic adaptive cards type.
 type Card struct {
 	Type                     string `json:"type"`    // required
 	Version                  string `json:"version"` // required
-	Schema                   string `json:"$schema"`
+	Schema                   string `json:"$schema,omitempty"`
 	Body                     []Node `json:"body,omitempty"`
 	Actions                  []Node `json:"actions,omitempty"`
 	SelectAction             []Node `json:"selectAction,omitempty"`
@@ -61,7 +66,6 @@ type Card struct {
 // New returns a card with provided body and default schema
 func New(body []Node, actions []Node) *Card {
 	return &Card{
-		Schema:  DefaultSchema,
 		Type:    AdaptiveCardType,
 		Version: Version13,
 		Body:    body,
@@ -72,6 +76,12 @@ func New(body []Node, actions []Node) *Card {
 // WithVersion allows to set card version
 func (c *Card) WithVersion(v string) *Card {
 	c.Version = v
+	return c
+}
+
+// WithSchema allows to set card schema
+func (c *Card) WithSchema(s string) *Card {
+	c.Schema = s
 	return c
 }
 

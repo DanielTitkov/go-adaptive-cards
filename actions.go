@@ -1,19 +1,9 @@
 package cards
 
-import "fmt"
-
-// ActionInheritedFields holds common inherited fields for actions
-type ActionInheritedFields struct {
-	Title    string            `json:"title,omitempty"`
-	IconURL  string            `json:"iconUrl,omitempty"`
-	Style    string            `json:"style,omitempty"`
-	Fallback []Node            `json:"fallback,omitempty"`
-	Requires map[string]string `json:"requires,omitempty"`
-}
-
-func (n ActionInheritedFields) validateInherited() error {
-	return nil
-}
+import (
+	"errors"
+	"fmt"
+)
 
 // ActionShowCard defines an AdaptiveCard which is shown to the user when the button or link is clicked.
 type ActionShowCard struct {
@@ -77,5 +67,56 @@ func (n ActionOpenURL) validate() error {
 	if n.Type != ActionOpenURLType {
 		return fmt.Errorf("ActionOpenURL type must be %s", ActionOpenURLType)
 	}
+	return nil
+}
+
+// ActionToggleVisibility toggles the visibility of associated card elements.
+type ActionToggleVisibility struct {
+	Type           string          `json:"type"` // required
+	TargetElements []TargetElement `json:"targetElements,omitempty"`
+	// inherited
+	Title    string            `json:"title,omitempty"`
+	IconURL  string            `json:"iconUrl,omitempty"`
+	Style    string            `json:"style,omitempty"`
+	Fallback []Node            `json:"fallback,omitempty"`
+	Requires map[string]string `json:"requires,omitempty"`
+}
+
+func (n ActionToggleVisibility) validate() error {
+	if n.Type != ActionToggleVisibilityType {
+		return fmt.Errorf("ActionToggleVisibility type must be %s", ActionToggleVisibilityType)
+	}
+	for _, e := range n.TargetElements {
+		if err := e.validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// TargetElement represents an entry for Action.ToggleVisibility's targetElements property
+type TargetElement struct {
+	ElementID string `json:"elementId"` // required
+	IsVisible *bool  `json:"isVisible,omitempty"`
+}
+
+func (t TargetElement) validate() error {
+	if t.ElementID == "" {
+		return errors.New("TargetElement element id is required")
+	}
+	return nil
+}
+
+// ActionInheritedFields holds common inherited fields for actions.
+// Not really used for the brewety of API.
+type ActionInheritedFields struct {
+	Title    string            `json:"title,omitempty"`
+	IconURL  string            `json:"iconUrl,omitempty"`
+	Style    string            `json:"style,omitempty"`
+	Fallback []Node            `json:"fallback,omitempty"`
+	Requires map[string]string `json:"requires,omitempty"`
+}
+
+func (n ActionInheritedFields) validateInherited() error {
 	return nil
 }

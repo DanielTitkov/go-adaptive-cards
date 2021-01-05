@@ -9,6 +9,7 @@ import (
 
 func main() {
 	log.Println("Go Adaptive Cards example")
+	log.Println("Serializing card...")
 
 	c := cards.New([]cards.Node{
 		cards.Container{
@@ -17,11 +18,11 @@ func main() {
 				cards.TextBlock{
 					Type:     cards.TextBlockType,
 					Text:     "foo",
-					IsSubtle: true,
+					IsSubtle: cards.FalsePtr(),
 				},
 			},
 		},
-	})
+	}, []cards.Node{})
 
 	s, err := c.StringIndent("", "    ")
 	if err != nil {

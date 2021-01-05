@@ -5,6 +5,104 @@ import (
 	"testing"
 )
 
+func TestToggleCard(t *testing.T) {
+	toggleCardJSON := mustReadFile("./test/toggle.json")
+	c := New([]Node{
+		TextBlock{
+			Type: TextBlockType,
+			Text: "Press the buttons to toggle the images!",
+			Wrap: TruePtr(),
+		},
+		TextBlock{
+			Type:      TextBlockType,
+			Text:      "Here are some images:",
+			IsVisible: FalsePtr(),
+			ID:        "textToToggle",
+		},
+		ColumnSet{
+			Type: ColumnSetType,
+			Columns: []Column{
+				{
+					Type: ColumnType,
+					Items: []Node{
+						Image{
+							Type:      ImageType,
+							URL:       "https://picsum.photos/100/100?image=112",
+							Style:     "person",
+							IsVisible: FalsePtr(),
+							ID:        "imageToToggle",
+							AltText:   "sample image 1",
+							Size:      "medium",
+						},
+					},
+				},
+			},
+		},
+	}, []Node{
+		ActionToggleVisibility{
+			Type:  ActionToggleVisibilityType,
+			Title: "Toggle!",
+			TargetElements: []TargetElement{
+				{
+					ElementID: "textToToggle",
+				},
+				{
+					ElementID: "imageToToggle",
+				},
+			},
+		},
+		ActionToggleVisibility{
+			Type:  ActionToggleVisibilityType,
+			Title: "Show!",
+			TargetElements: []TargetElement{
+				{
+					ElementID: "textToToggle",
+					IsVisible: TruePtr(),
+				},
+				{
+					ElementID: "imageToToggle",
+					IsVisible: TruePtr(),
+				},
+			},
+		},
+		ActionToggleVisibility{
+			Type:  ActionToggleVisibilityType,
+			Title: "Hide!",
+			TargetElements: []TargetElement{
+				{
+					ElementID: "textToToggle",
+					IsVisible: FalsePtr(),
+				},
+				{
+					ElementID: "imageToToggle",
+					IsVisible: FalsePtr(),
+				},
+			},
+		},
+		ActionToggleVisibility{
+			Type:  ActionToggleVisibilityType,
+			Title: "Grain!",
+			TargetElements: []TargetElement{
+				{
+					ElementID: "textToToggle",
+					IsVisible: FalsePtr(),
+				},
+				{
+					ElementID: "imageToToggle",
+					IsVisible: TruePtr(),
+				},
+			},
+		},
+	}).WithVersion(Version12)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != toggleCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", toggleCardJSON, got)
+	}
+}
+
 func TestExampleCard(t *testing.T) {
 	exampleCardJSON := mustReadFile("./test/example.json")
 	c := New([]Node{
@@ -40,14 +138,14 @@ func TestExampleCard(t *testing.T) {
 									Type:   TextBlockType,
 									Text:   "Matt Hidinger",
 									Weight: "bolder",
-									Wrap:   true,
+									Wrap:   TruePtr(),
 								},
 								TextBlock{
 									Type:     TextBlockType,
 									Spacing:  "none",
 									Text:     "Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}",
-									IsSubtle: true,
-									Wrap:     true,
+									IsSubtle: TruePtr(),
+									Wrap:     TruePtr(),
 								},
 							},
 						},
@@ -61,7 +159,7 @@ func TestExampleCard(t *testing.T) {
 				TextBlock{
 					Type: TextBlockType,
 					Text: "Now that we have defined the main rules...",
-					Wrap: true,
+					Wrap: TruePtr(),
 				},
 				FactSet{
 					Type: FactSetType,
@@ -96,7 +194,7 @@ func TestExampleCard(t *testing.T) {
 					InputText{
 						Type:        InputTextType,
 						ID:          "comment",
-						IsMultiline: true,
+						IsMultiline: TruePtr(),
 						Placeholder: "Enter your comment",
 					},
 				},
@@ -113,7 +211,7 @@ func TestExampleCard(t *testing.T) {
 			Title: "View",
 			URL:   "https://adaptivecards.io",
 		},
-	}).WithVersion(Version1)
+	}).WithVersion(Version1).WithSchema(DefaultSchema)
 	got, err := c.StringIndent("", "  ")
 	if err != nil {
 		t.Fatal(err)
