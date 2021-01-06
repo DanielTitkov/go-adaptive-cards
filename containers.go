@@ -54,18 +54,18 @@ func (n *ColumnSet) prepare() error {
 
 // Column defines a container that is part of a ColumnSet.
 type Column struct {
-	Type                     string `json:"type"` // required - it is not stated in a.c. docs but actually has to be "Column"
-	Items                    []Node `json:"items,omitempty"`
-	BackgroundImage          string `json:"backgroundImage,omitempty"`
-	Bleed                    *bool  `json:"bleed,omitempty"`
-	Fallback                 Node   `json:"fallback,omitempty"`
-	MinHeight                string `json:"minHeight,omitempty"`
-	Separator                *bool  `json:"separator,omitempty"`
-	Spacing                  string `json:"spacing,omitempty"`
-	SelectAction             []Node `json:"selectAction,omitempty"`
-	Style                    []Node `json:"style,omitempty"` // FIXME
-	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
-	Width                    string `json:"width,omitempty"`
+	Type                     string           `json:"type"` // required - it is not stated in a.c. docs but actually has to be "Column"
+	Items                    []Node           `json:"items,omitempty"`
+	BackgroundImage          *BackgroundImage `json:"backgroundImage,omitempty"`
+	Bleed                    *bool            `json:"bleed,omitempty"`
+	Fallback                 Node             `json:"fallback,omitempty"`
+	MinHeight                string           `json:"minHeight,omitempty"`
+	Separator                *bool            `json:"separator,omitempty"`
+	Spacing                  string           `json:"spacing,omitempty"`
+	SelectAction             []Node           `json:"selectAction,omitempty"`
+	Style                    []Node           `json:"style,omitempty"` // FIXME
+	VerticalContentAlignment string           `json:"verticalContentAlignment,omitempty"`
+	Width                    string           `json:"width,omitempty"`
 	// inherited
 	ID        string            `json:"id,omitempty"`
 	IsVisible *bool             `json:"isVisible,omitempty"`
@@ -76,6 +76,11 @@ func (c *Column) prepare() error {
 	c.Type = ColumnType
 	for _, node := range c.Items {
 		if err := node.prepare(); err != nil {
+			return err
+		}
+	}
+	if c.BackgroundImage != nil {
+		if err := c.BackgroundImage.prepare(); err != nil {
 			return err
 		}
 	}

@@ -56,20 +56,25 @@ const (
 	InputToggleType = "Input.Toggle"
 )
 
+// Node is card element
+type Node interface {
+	prepare() error
+}
+
 // Card is basic adaptive cards type.
 type Card struct {
-	Type                     string `json:"type"`    // required
-	Version                  string `json:"version"` // required
-	Schema                   string `json:"$schema,omitempty"`
-	Body                     []Node `json:"body,omitempty"`
-	Actions                  []Node `json:"actions,omitempty"`
-	SelectAction             []Node `json:"selectAction,omitempty"`
-	FallbackText             string `json:"fallbackText,omitempty"`
-	BackgroundImage          string `json:"backgroundImage,omitempty"`
-	MinHeight                string `json:"minHeight,omitempty"`
-	Speak                    string `json:"speak,omitempty"`
-	Lang                     string `json:"lang,omitempty"`
-	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
+	Type                     string           `json:"type"`    // required
+	Version                  string           `json:"version"` // required
+	Schema                   string           `json:"$schema,omitempty"`
+	Body                     []Node           `json:"body,omitempty"`
+	Actions                  []Node           `json:"actions,omitempty"`
+	SelectAction             []Node           `json:"selectAction,omitempty"`
+	FallbackText             string           `json:"fallbackText,omitempty"`
+	BackgroundImage          *BackgroundImage `json:"backgroundImage,omitempty"`
+	MinHeight                string           `json:"minHeight,omitempty"`
+	Speak                    string           `json:"speak,omitempty"`
+	Lang                     string           `json:"lang,omitempty"`
+	VerticalContentAlignment string           `json:"verticalContentAlignment,omitempty"`
 }
 
 // New returns a card with provided body and default schema
@@ -94,9 +99,16 @@ func (c *Card) WithSchema(s string) *Card {
 	return c
 }
 
-// Node is card element
-type Node interface {
-	prepare() error
+// WithBackgroundImage allows to set card image
+func (c *Card) WithBackgroundImage(i BackgroundImage) *Card {
+	c.BackgroundImage = &i
+	return c
+}
+
+// WithMinHeight allows to set card min height
+func (c *Card) WithMinHeight(h string) *Card {
+	c.MinHeight = h
+	return c
 }
 
 // Prepare validates card (required fields etc) and sets relevant types
@@ -112,6 +124,11 @@ func (c *Card) Prepare() error {
 	}
 	for _, node := range c.Actions {
 		if err := node.prepare(); err != nil {
+			return err
+		}
+	}
+	if c.BackgroundImage != nil {
+		if err := c.BackgroundImage.prepare(); err != nil {
 			return err
 		}
 	}
@@ -154,18 +171,18 @@ func (c *Card) StringIndent(prefix string, indent string) (string, error) {
 
 // NestedCard is similar to adaptive card but doesn't require version and schema
 type NestedCard struct {
-	Type                     string `json:"type"` // required
-	Version                  string `json:"version,omitempty"`
-	Schema                   string `json:"$schema,omitempty"`
-	Body                     []Node `json:"body,omitempty"`
-	Actions                  []Node `json:"actions,omitempty"`
-	SelectAction             []Node `json:"selectAction,omitempty"`
-	FallbackText             string `json:"fallbackText,omitempty"`
-	BackgroundImage          string `json:"backgroundImage,omitempty"`
-	MinHeight                string `json:"minHeight,omitempty"`
-	Speak                    string `json:"speak,omitempty"`
-	Lang                     string `json:"lang,omitempty"`
-	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
+	Type                     string           `json:"type"` // required
+	Version                  string           `json:"version,omitempty"`
+	Schema                   string           `json:"$schema,omitempty"`
+	Body                     []Node           `json:"body,omitempty"`
+	Actions                  []Node           `json:"actions,omitempty"`
+	SelectAction             []Node           `json:"selectAction,omitempty"`
+	FallbackText             string           `json:"fallbackText,omitempty"`
+	BackgroundImage          *BackgroundImage `json:"backgroundImage,omitempty"`
+	MinHeight                string           `json:"minHeight,omitempty"`
+	Speak                    string           `json:"speak,omitempty"`
+	Lang                     string           `json:"lang,omitempty"`
+	VerticalContentAlignment string           `json:"verticalContentAlignment,omitempty"`
 }
 
 func (n *NestedCard) prepare() error {
@@ -179,6 +196,26 @@ func (n *NestedCard) prepare() error {
 		if err := node.prepare(); err != nil {
 			return err
 		}
+	}
+	if n.BackgroundImage != nil {
+		if err := n.BackgroundImage.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// BackgroundImage specifies a background image. Acceptable formats are PNG, JPEG, and GIF.
+type BackgroundImage struct {
+	URL                 string `json:"url"` // required
+	FillMode            string `json:"fillMode,omitempty"`
+	HorizontalAlignment string `json:"horizontalAlignment,omitempty"`
+	VerticalAlignment   string `json:"verticalAlignment,omitempty"`
+}
+
+func (b *BackgroundImage) prepare() error {
+	if b.URL == "" {
+		return errors.New("BackgroundImage must have url")
 	}
 	return nil
 }

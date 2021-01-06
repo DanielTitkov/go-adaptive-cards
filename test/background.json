@@ -1,0 +1,22 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.2",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Here is something about a cat",
+      "weight": "Bolder",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "Cat is good, cat is better, cat is really really greate",
+      "wrap": true
+    }
+  ],
+  "backgroundImage": {
+    "url": "https://adaptivecards.io/content/cats/1.png",
+    "fillMode": "cover"
+  },
+  "minHeight": "500px"
+}

@@ -12,11 +12,9 @@ func main() {
 	log.Println("Serializing card...")
 
 	c := cards.New([]cards.Node{
-		cards.Container{
-			Type: cards.ContainerType,
+		&cards.Container{
 			Items: []cards.Node{
-				cards.TextBlock{
-					Type:     cards.TextBlockType,
+				&cards.TextBlock{
 					Text:     "foo",
 					IsSubtle: cards.FalsePtr(),
 				},

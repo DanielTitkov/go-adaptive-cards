@@ -187,6 +187,36 @@ func TestInputsCard(t *testing.T) {
 	}
 }
 
+func TestBackGroundImage(t *testing.T) {
+	backgroundCardJSON := mustReadFile("./test/background.json")
+	c := New([]Node{
+		&TextBlock{
+			Text:   "Here is something about a cat",
+			Weight: "Bolder",
+			Wrap:   TruePtr(),
+		},
+		&TextBlock{
+			Text: "Cat is good, cat is better, cat is really really greate",
+			Wrap: TruePtr(),
+		},
+	}, []Node{}).
+		WithVersion(Version12).
+		WithBackgroundImage(
+			BackgroundImage{
+				URL:      "https://adaptivecards.io/content/cats/1.png",
+				FillMode: "cover",
+			},
+		).
+		WithMinHeight("500px")
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != backgroundCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", backgroundCardJSON, got)
+	}
+}
+
 func TestToggleCard(t *testing.T) {
 	toggleCardJSON := mustReadFile("./test/toggle.json")
 	c := New([]Node{
