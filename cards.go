@@ -40,6 +40,8 @@ const (
 	ColumnType = "Column"
 	// FactSetType is type for FactSet
 	FactSetType = "FactSet"
+	// ImageSetType is type for ImageSet
+	ImageSetType = "ImageSet"
 	// ActionShowCardType is type for Action.ShowCard
 	ActionShowCardType = "Action.ShowCard"
 	// ActionSubmitType is type for Action.Submit

@@ -542,6 +542,33 @@ func TestRichTextBlock(t *testing.T) {
 	}
 }
 
+func TestImageSet(t *testing.T) {
+	imagesCardJSON := mustReadFile("./test/images.json")
+	c := New([]Node{
+		&ImageSet{
+			ImageSize: "small",
+			Images: []*Image{
+				{
+					URL: "https://adaptivecards.io/content/cats/1.png",
+				},
+				{
+					URL: "https://adaptivecards.io/content/cats/2.png",
+				},
+				{
+					URL: "https://adaptivecards.io/content/cats/3.png",
+				},
+			},
+		},
+	}, []Node{}).WithVersion(Version1).WithSchema(DefaultSchema)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != imagesCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", imagesCardJSON, got)
+	}
+}
+
 func mustReadFile(path string) string {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

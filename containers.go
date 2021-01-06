@@ -129,3 +129,31 @@ func (f *Fact) prepare() error {
 	}
 	return nil
 }
+
+// ImageSet displays a collection of Images similar to a gallery. Acceptable formats are PNG, JPEG, and GIF.
+type ImageSet struct {
+	Type      string   `json:"type"`   // required
+	Images    []*Image `json:"images"` // required
+	ImageSize string   `json:"imageSize,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n *ImageSet) prepare() error {
+	n.Type = ImageSetType
+	if len(n.Images) < 1 {
+		return errors.New("ImageSet must have images")
+	}
+	for _, f := range n.Images {
+		if err := f.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
