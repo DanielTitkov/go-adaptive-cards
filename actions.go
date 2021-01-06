@@ -2,7 +2,6 @@ package cards
 
 import (
 	"errors"
-	"fmt"
 )
 
 // ActionShowCard defines an AdaptiveCard which is shown to the user when the button or link is clicked.
@@ -17,11 +16,9 @@ type ActionShowCard struct {
 	Requires map[string]string `json:"requires,omitempty"`
 }
 
-func (n ActionShowCard) validate() error {
-	if n.Type != ActionShowCardType {
-		return fmt.Errorf("ActionShowCard type must be %s", ActionShowCardType)
-	}
-	if err := n.Card.validate(); err != nil {
+func (n *ActionShowCard) prepare() error {
+	n.Type = ActionShowCardType
+	if err := n.Card.prepare(); err != nil {
 		return err
 	}
 	return nil
@@ -43,10 +40,8 @@ type ActionSubmit struct {
 	Requires map[string]string `json:"requires,omitempty"`
 }
 
-func (n ActionSubmit) validate() error {
-	if n.Type != ActionSubmitType {
-		return fmt.Errorf("ActionSubmit type must be %s", ActionSubmitType)
-	}
+func (n *ActionSubmit) prepare() error {
+	n.Type = ActionSubmitType
 	return nil
 }
 
@@ -63,10 +58,8 @@ type ActionOpenURL struct {
 	Requires map[string]string `json:"requires,omitempty"`
 }
 
-func (n ActionOpenURL) validate() error {
-	if n.Type != ActionOpenURLType {
-		return fmt.Errorf("ActionOpenURL type must be %s", ActionOpenURLType)
-	}
+func (n *ActionOpenURL) prepare() error {
+	n.Type = ActionOpenURLType
 	return nil
 }
 
@@ -82,12 +75,10 @@ type ActionToggleVisibility struct {
 	Requires map[string]string `json:"requires,omitempty"`
 }
 
-func (n ActionToggleVisibility) validate() error {
-	if n.Type != ActionToggleVisibilityType {
-		return fmt.Errorf("ActionToggleVisibility type must be %s", ActionToggleVisibilityType)
-	}
+func (n *ActionToggleVisibility) prepare() error {
+	n.Type = ActionToggleVisibilityType
 	for _, e := range n.TargetElements {
-		if err := e.validate(); err != nil {
+		if err := e.prepare(); err != nil {
 			return err
 		}
 	}
@@ -100,7 +91,7 @@ type TargetElement struct {
 	IsVisible *bool  `json:"isVisible,omitempty"`
 }
 
-func (t TargetElement) validate() error {
+func (t *TargetElement) prepare() error {
 	if t.ElementID == "" {
 		return errors.New("TargetElement element id is required")
 	}

@@ -2,7 +2,6 @@ package cards
 
 import (
 	"errors"
-	"fmt"
 )
 
 // InputText is Input.Text type
@@ -27,10 +26,8 @@ type InputText struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputText) validate() error {
-	if n.Type != InputTextType {
-		return fmt.Errorf("InputText type must be %s", InputTextType)
-	}
+func (n *InputText) prepare() error {
+	n.Type = InputTextType
 	if n.ID == "" {
 		return errors.New("InputText id is required")
 	}
@@ -57,10 +54,8 @@ type InputNumber struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputNumber) validate() error {
-	if n.Type != InputNumberType {
-		return fmt.Errorf("InputNumber type must be %s", InputNumberType)
-	}
+func (n *InputNumber) prepare() error {
+	n.Type = InputNumberType
 	if n.ID == "" {
 		return errors.New("InputNumber id is required")
 	}
@@ -87,10 +82,8 @@ type InputTime struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputTime) validate() error {
-	if n.Type != InputTimeType {
-		return fmt.Errorf("InputTime type must be %s", InputTimeType)
-	}
+func (n *InputTime) prepare() error {
+	n.Type = InputTimeType
 	if n.ID == "" {
 		return errors.New("InputTime id is required")
 	}
@@ -117,10 +110,8 @@ type InputDate struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputDate) validate() error {
-	if n.Type != InputDateType {
-		return fmt.Errorf("InputDate type must be %s", InputDateType)
-	}
+func (n *InputDate) prepare() error {
+	n.Type = InputDateType
 	if n.ID == "" {
 		return errors.New("InputDate id is required")
 	}
@@ -129,14 +120,14 @@ func (n InputDate) validate() error {
 
 // InputChoiceSet allows a user to input a Choice.
 type InputChoiceSet struct {
-	Type          string        `json:"type"`    // required
-	Choices       []InputChoice `json:"choices"` // required
-	ID            string        `json:"id"`      // required
-	IsMultiSelect *bool         `json:"isMultiSelect,omitempty"`
-	Style         string        `json:"style,omitempty"`
-	Placeholder   string        `json:"placeholder,omitempty"`
-	Value         string        `json:"value,omitempty"`
-	Wrap          *bool         `json:"wrap,omitempty"`
+	Type          string         `json:"type"`    // required
+	Choices       []*InputChoice `json:"choices"` // required
+	ID            string         `json:"id"`      // required
+	IsMultiSelect *bool          `json:"isMultiSelect,omitempty"`
+	Style         string         `json:"style,omitempty"`
+	Placeholder   string         `json:"placeholder,omitempty"`
+	Value         string         `json:"value,omitempty"`
+	Wrap          *bool          `json:"wrap,omitempty"`
 	// inherited
 	ErrorMessage string            `json:"errorMessage,omitempty"`
 	IsRequired   *bool             `json:"isRequired,omitempty"`
@@ -149,10 +140,8 @@ type InputChoiceSet struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputChoiceSet) validate() error {
-	if n.Type != InputChoiceSetType {
-		return fmt.Errorf("InputChoiceSet type must be %s", InputChoiceSetType)
-	}
+func (n *InputChoiceSet) prepare() error {
+	n.Type = InputChoiceSetType
 	if n.ID == "" {
 		return errors.New("InputChoiceSet id is required")
 	}
@@ -160,7 +149,7 @@ func (n InputChoiceSet) validate() error {
 		return errors.New("InputChoiceSet must have choices")
 	}
 	for _, c := range n.Choices {
-		if err := c.validate(); err != nil {
+		if err := c.prepare(); err != nil {
 			return err
 		}
 	}
@@ -174,7 +163,7 @@ type InputChoice struct {
 	Value string `json:"value"` // required
 }
 
-func (c InputChoice) validate() error {
+func (c *InputChoice) prepare() error {
 	if c.Title == "" {
 		return errors.New("Choice must have title")
 	}
@@ -206,10 +195,8 @@ type InputToggle struct {
 	Requires     map[string]string `json:"requires,omitempty"`
 }
 
-func (n InputToggle) validate() error {
-	if n.Type != InputToggleType {
-		return fmt.Errorf("InputToggle type must be %s", InputToggleType)
-	}
+func (n *InputToggle) prepare() error {
+	n.Type = InputToggleType
 	if n.ID == "" {
 		return errors.New("InputToggle id is required")
 	}

@@ -9,166 +9,139 @@ import (
 func TestInputsCard(t *testing.T) {
 	inputsCardJSON := mustReadFile("./test/inputs.json")
 
-	var choices []InputChoice
+	var choices []*InputChoice
 	for i, color := range []string{"Red", "Green", "Blue"} {
-		choices = append(choices, InputChoice{
+		choices = append(choices, &InputChoice{
 			Title: color,
 			Value: fmt.Sprint(i + 1),
 		})
 	}
 
 	c := New([]Node{
-		TextBlock{
-			Type:                TextBlockType,
+		&TextBlock{
 			Size:                "Medium",
 			Weight:              "Bolder",
 			Text:                "Input.Text elements",
 			HorizontalAlignment: "Center",
 			Wrap:                TruePtr(),
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Name",
 			Wrap: TruePtr(),
 		},
-		InputText{
-			Type:  InputTextType,
+		&InputText{
 			Style: "text",
 			ID:    "SimpleVal",
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Homepage",
 			Wrap: TruePtr(),
 		},
-		InputText{
-			Type:  InputTextType,
+		&InputText{
 			Style: "url",
 			ID:    "UrlVal",
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Email",
 			Wrap: TruePtr(),
 		},
-		InputText{
-			Type:  InputTextType,
+		&InputText{
 			Style: "email",
 			ID:    "EmailVal",
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Phone",
 			Wrap: TruePtr(),
 		},
-		InputText{
-			Type:  InputTextType,
+		&InputText{
 			Style: "tel",
 			ID:    "TelVal",
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Comments",
 			Wrap: TruePtr(),
 		},
-		InputText{
-			Type:        InputTextType,
+		&InputText{
 			Style:       "text",
 			ID:          "MultiLineVal",
 			IsMultiline: TruePtr(),
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Quantity",
 			Wrap: TruePtr(),
 		},
-		InputNumber{
-			Type:  InputNumberType,
+		&InputNumber{
 			ID:    "NumVal",
 			Max:   5,
 			Min:   -5,
 			Value: 1,
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Due Date",
 			Wrap: TruePtr(),
 		},
-		InputDate{
-			Type:  InputDateType,
+		&InputDate{
 			ID:    "DateVal",
 			Value: "2017-09-20",
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Start time",
 			Wrap: TruePtr(),
 		},
-		InputTime{
-			Type:  InputTimeType,
+		&InputTime{
 			ID:    "TimeVal",
 			Value: "16:59",
 		},
-		TextBlock{
-			Type:                TextBlockType,
+		&TextBlock{
 			Text:                "Input ChoiceSet",
 			Size:                "Medium",
 			Weight:              "Bolder",
 			HorizontalAlignment: "Center",
 			Wrap:                TruePtr(),
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "What color do you want? (compact)",
 			Wrap: TruePtr(),
 		},
-		InputChoiceSet{
-			Type:    InputChoiceSetType,
+		&InputChoiceSet{
 			ID:      "CompactSelectVal",
 			Value:   "1",
 			Choices: choices,
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "What color do you want? (expanded)",
 			Wrap: TruePtr(),
 		},
-		InputChoiceSet{
-			Type:    InputChoiceSetType,
+		&InputChoiceSet{
 			ID:      "SingleSelectVal",
 			Value:   "1",
 			Style:   "expanded",
 			Choices: choices,
 		},
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "What color do you want? (multiselect)",
 			Wrap: TruePtr(),
 		},
-		InputChoiceSet{
-			Type:          InputChoiceSetType,
+		&InputChoiceSet{
 			ID:            "MultiSelectVal",
 			Value:         "1,3",
 			IsMultiSelect: TruePtr(),
 			Choices:       choices,
 		},
-		TextBlock{
-			Type:                TextBlockType,
+		&TextBlock{
 			Text:                "Input.Toggle",
 			Size:                "Medium",
 			Weight:              "Bolder",
 			HorizontalAlignment: "Center",
 			Wrap:                TruePtr(),
 		},
-		InputToggle{
-			Type:  InputToggleType,
+		&InputToggle{
 			Title: "I accept the terms and conditions (True/False)",
 			ID:    "AcceptsTerms",
 			Wrap:  FalsePtr(),
 			Value: "false",
 		},
-		InputToggle{
-			Type:     InputToggleType,
+		&InputToggle{
 			Title:    "Red cars are better than other cars",
 			ID:       "ColorPreference",
 			Wrap:     FalsePtr(),
@@ -177,34 +150,28 @@ func TestInputsCard(t *testing.T) {
 			ValueOn:  "NotRedCars",
 		},
 	}, []Node{
-		ActionSubmit{
-			Type:  ActionSubmitType,
+		&ActionSubmit{
 			Title: "Submit",
 			Data: map[string]interface{}{
 				"id": "1234567890",
 			},
 		},
-		ActionShowCard{
-			Type:  ActionShowCardType,
+		&ActionShowCard{
 			Title: "Show Card",
 			Card: NestedCard{
-				Type:   AdaptiveCardType,
 				Schema: DefaultSchema,
 				Body: []Node{
-					TextBlock{
-						Type: TextBlockType,
+					&TextBlock{
 						Text: "Enter comment",
 						Wrap: TruePtr(),
 					},
-					InputText{
-						Type:  InputTextType,
+					&InputText{
 						Style: "text",
 						ID:    "CommentVal",
 					},
 				},
 				Actions: []Node{
-					ActionSubmit{
-						Type:  ActionSubmitType,
+					&ActionSubmit{
 						Title: "OK",
 					},
 				},
@@ -223,25 +190,20 @@ func TestInputsCard(t *testing.T) {
 func TestToggleCard(t *testing.T) {
 	toggleCardJSON := mustReadFile("./test/toggle.json")
 	c := New([]Node{
-		TextBlock{
-			Type: TextBlockType,
+		&TextBlock{
 			Text: "Press the buttons to toggle the images!",
 			Wrap: TruePtr(),
 		},
-		TextBlock{
-			Type:      TextBlockType,
+		&TextBlock{
 			Text:      "Here are some images:",
 			IsVisible: FalsePtr(),
 			ID:        "textToToggle",
 		},
-		ColumnSet{
-			Type: ColumnSetType,
-			Columns: []Column{
+		&ColumnSet{
+			Columns: []*Column{
 				{
-					Type: ColumnType,
 					Items: []Node{
-						Image{
-							Type:      ImageType,
+						&Image{
 							URL:       "https://picsum.photos/100/100?image=112",
 							Style:     "person",
 							IsVisible: FalsePtr(),
@@ -254,8 +216,7 @@ func TestToggleCard(t *testing.T) {
 			},
 		},
 	}, []Node{
-		ActionToggleVisibility{
-			Type:  ActionToggleVisibilityType,
+		&ActionToggleVisibility{
 			Title: "Toggle!",
 			TargetElements: []TargetElement{
 				{
@@ -266,8 +227,7 @@ func TestToggleCard(t *testing.T) {
 				},
 			},
 		},
-		ActionToggleVisibility{
-			Type:  ActionToggleVisibilityType,
+		&ActionToggleVisibility{
 			Title: "Show!",
 			TargetElements: []TargetElement{
 				{
@@ -280,8 +240,7 @@ func TestToggleCard(t *testing.T) {
 				},
 			},
 		},
-		ActionToggleVisibility{
-			Type:  ActionToggleVisibilityType,
+		&ActionToggleVisibility{
 			Title: "Hide!",
 			TargetElements: []TargetElement{
 				{
@@ -294,8 +253,7 @@ func TestToggleCard(t *testing.T) {
 				},
 			},
 		},
-		ActionToggleVisibility{
-			Type:  ActionToggleVisibilityType,
+		&ActionToggleVisibility{
 			Title: "Grain!",
 			TargetElements: []TargetElement{
 				{
@@ -321,24 +279,19 @@ func TestToggleCard(t *testing.T) {
 func TestExampleCard(t *testing.T) {
 	exampleCardJSON := mustReadFile("./test/example.json")
 	c := New([]Node{
-		Container{
-			Type: ContainerType,
+		&Container{
 			Items: []Node{
-				TextBlock{
-					Type:   TextBlockType,
+				&TextBlock{
 					Text:   "Publish Adaptive Card schema",
 					Weight: "bolder",
 					Size:   "medium",
 				},
-				ColumnSet{
-					Type: ColumnSetType,
-					Columns: []Column{
+				&ColumnSet{
+					Columns: []*Column{
 						{
-							Type:  ColumnType,
 							Width: "auto",
 							Items: []Node{
-								Image{
-									Type:  ImageType,
+								&Image{
 									URL:   "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
 									Size:  "small",
 									Style: "person",
@@ -346,17 +299,14 @@ func TestExampleCard(t *testing.T) {
 							},
 						},
 						{
-							Type:  ColumnType,
 							Width: "stretch",
 							Items: []Node{
-								TextBlock{
-									Type:   TextBlockType,
+								&TextBlock{
 									Text:   "Matt Hidinger",
 									Weight: "bolder",
 									Wrap:   TruePtr(),
 								},
-								TextBlock{
-									Type:     TextBlockType,
+								&TextBlock{
 									Spacing:  "none",
 									Text:     "Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}",
 									IsSubtle: TruePtr(),
@@ -368,17 +318,14 @@ func TestExampleCard(t *testing.T) {
 				},
 			},
 		},
-		Container{
-			Type: ContainerType,
+		&Container{
 			Items: []Node{
-				TextBlock{
-					Type: TextBlockType,
+				&TextBlock{
 					Text: "Now that we have defined the main rules...",
 					Wrap: TruePtr(),
 				},
-				FactSet{
-					Type: FactSetType,
-					Facts: []Fact{
+				&FactSet{
+					Facts: []*Fact{
 						{
 							Title: "Board:",
 							Value: "Adaptive Card",
@@ -400,29 +347,24 @@ func TestExampleCard(t *testing.T) {
 			},
 		},
 	}, []Node{
-		ActionShowCard{
-			Type:  ActionShowCardType,
+		&ActionShowCard{
 			Title: "Comment",
 			Card: NestedCard{
-				Type: AdaptiveCardType,
 				Body: []Node{
-					InputText{
-						Type:        InputTextType,
+					&InputText{
 						ID:          "comment",
 						IsMultiline: TruePtr(),
 						Placeholder: "Enter your comment",
 					},
 				},
 				Actions: []Node{
-					ActionSubmit{
-						Type:  ActionSubmitType,
+					&ActionSubmit{
 						Title: "OK",
 					},
 				},
 			},
 		},
-		ActionOpenURL{
-			Type:  ActionOpenURLType,
+		&ActionOpenURL{
 			Title: "View",
 			URL:   "https://adaptivecards.io",
 		},
@@ -438,7 +380,7 @@ func TestExampleCard(t *testing.T) {
 
 func TestInvalidCard(t *testing.T) {
 	c := Card{Body: []Node{}}
-	err := c.Validate()
+	err := c.Prepare()
 	if err == nil {
 		t.Error("expected to have an error, got nil")
 	}

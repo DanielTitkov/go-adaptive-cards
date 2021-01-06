@@ -3,7 +3,6 @@ package cards
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 )
 
 const (
@@ -97,24 +96,22 @@ func (c *Card) WithSchema(s string) *Card {
 
 // Node is card element
 type Node interface {
-	validate() error
+	prepare() error
 }
 
-// Validate validates card (required fields etc)
-func (c *Card) Validate() error {
-	if c.Type != AdaptiveCardType {
-		return fmt.Errorf("Card type must be %s", AdaptiveCardType)
-	}
+// Prepare validates card (required fields etc) and sets relevant types
+func (c *Card) Prepare() error {
+	c.Type = AdaptiveCardType
 	if c.Version == "" {
 		return errors.New("card version is required")
 	}
 	for _, node := range c.Body {
-		if err := node.validate(); err != nil {
+		if err := node.prepare(); err != nil {
 			return err
 		}
 	}
 	for _, node := range c.Actions {
-		if err := node.validate(); err != nil {
+		if err := node.prepare(); err != nil {
 			return err
 		}
 	}
@@ -123,7 +120,7 @@ func (c *Card) Validate() error {
 
 // Bytes returns adaptive card JSON as bytes
 func (c *Card) Bytes() ([]byte, error) {
-	if err := c.Validate(); err != nil {
+	if err := c.Prepare(); err != nil {
 		return []byte{}, err
 	}
 	return json.Marshal(c)
@@ -140,7 +137,7 @@ func (c *Card) String() (string, error) {
 
 // BytesIndent returns adaptive card JSON as bytes with indentation
 func (c *Card) BytesIndent(prefix string, indent string) ([]byte, error) {
-	if err := c.Validate(); err != nil {
+	if err := c.Prepare(); err != nil {
 		return []byte{}, err
 	}
 	return json.MarshalIndent(c, prefix, indent)
@@ -171,17 +168,15 @@ type NestedCard struct {
 	VerticalContentAlignment string `json:"verticalContentAlignment,omitempty"`
 }
 
-func (n *NestedCard) validate() error {
-	if n.Type != AdaptiveCardType {
-		return fmt.Errorf("NestedCard type must be %s", AdaptiveCardType)
-	}
+func (n *NestedCard) prepare() error {
+	n.Type = AdaptiveCardType
 	for _, node := range n.Body {
-		if err := node.validate(); err != nil {
+		if err := node.prepare(); err != nil {
 			return err
 		}
 	}
 	for _, node := range n.Actions {
-		if err := node.validate(); err != nil {
+		if err := node.prepare(); err != nil {
 			return err
 		}
 	}

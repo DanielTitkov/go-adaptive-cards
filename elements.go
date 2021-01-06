@@ -2,7 +2,6 @@ package cards
 
 import (
 	"errors"
-	"fmt"
 )
 
 // TextBlock is textblock element
@@ -27,10 +26,8 @@ type TextBlock struct {
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 
-func (n TextBlock) validate() error {
-	if n.Type != TextBlockType {
-		return fmt.Errorf("TextBlock type must be %s", TextBlockType)
-	}
+func (n *TextBlock) prepare() error {
+	n.Type = TextBlockType
 	if n.Text == "" {
 		return errors.New("TextBlock text is required")
 	}
@@ -58,10 +55,8 @@ type Image struct {
 	Requires  map[string]string `json:"requires,omitempty"`
 }
 
-func (n Image) validate() error {
-	if n.Type != ImageType {
-		return fmt.Errorf("Image type must be %s", ImageType)
-	}
+func (n *Image) prepare() error {
+	n.Type = ImageType
 	if n.URL == "" {
 		return errors.New("Image url is required")
 	}
