@@ -107,3 +107,55 @@ func (m *MediaSource) prepare() error {
 	}
 	return nil
 }
+
+// RichTextBlock defines an array of inlines, allowing for inline text formatting.
+type RichTextBlock struct {
+	Type                string     `json:"type"`    // required, must be RichTextBlock
+	Inlines             []*TextRun `json:"inlines"` // required
+	HorizontalAlignment string     `json:"horizontalAlignment,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n *RichTextBlock) prepare() error {
+	n.Type = RichTextBlockType
+	if len(n.Inlines) < 1 {
+		return errors.New("RichTextBlock must have inlines")
+	}
+	for _, i := range n.Inlines {
+		if err := i.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// TextRun defines a single run of formatted text.
+type TextRun struct {
+	Type          string `json:"type"` // required
+	Text          string `json:"text"` // required
+	Color         string `json:"color,omitempty"`
+	FontType      string `json:"fontType,omitempty"` // FIXME this is a special type in a.c.
+	Highlight     *bool  `json:"highlight,omitempty"`
+	IsSubtle      *bool  `json:"isSubtle,omitempty"`
+	Italic        *bool  `json:"italic,omitempty"`
+	SelectAction  Node   `json:"selectAction,omitempty"`
+	Size          string `json:"size,omitempty"`
+	Strikethrough *bool  `json:"strikethrough,omitempty"`
+	Underline     *bool  `json:"underline,omitempty"`
+	Weight        string `json:"weight,omitempty"`
+}
+
+func (t *TextRun) prepare() error {
+	t.Type = TextRunType
+	if t.Text == "" {
+		return errors.New("TextRun must have text")
+	}
+	return nil
+}

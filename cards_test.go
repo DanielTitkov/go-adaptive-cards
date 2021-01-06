@@ -466,6 +466,82 @@ func TestMedia(t *testing.T) {
 	}
 }
 
+func TestRichTextBlock(t *testing.T) {
+	richCardJSON := mustReadFile("./test/rich.json")
+	c := New([]Node{
+		&RichTextBlock{
+			Inlines: []*TextRun{
+				{
+					Text:  "We support colors,",
+					Color: "good",
+				},
+				{
+					Text:     " both regular and subtle. ",
+					IsSubtle: TruePtr(),
+				},
+				{
+					Text: "Text ",
+					Size: "small",
+				},
+				{
+					Text: "sizes! ",
+					Size: "extraLarge",
+				},
+				{
+					Text:   "Light weight text. ",
+					Weight: "lighter",
+				},
+				{
+					Text:      "Highlights. ",
+					Highlight: TruePtr(),
+				},
+				{
+					Text:   "Italics. ",
+					Italic: TruePtr(),
+				},
+				{
+					Text:          "Strikethrough. ",
+					Strikethrough: TruePtr(),
+				},
+				{
+					Text:     "Monospace too!",
+					FontType: "monospace",
+				},
+			},
+		},
+		&RichTextBlock{
+			Inlines: []*TextRun{
+				{
+					Text: "Date-Time parsing: {{DATE(2017-02-14T06:08:39Z,LONG)}} {{TIME(2017-02-14T06:08:39Z)}}",
+				},
+			},
+		},
+		&RichTextBlock{
+			HorizontalAlignment: "center",
+			Inlines: []*TextRun{
+				{
+					Text: "Rich text blocks also support center alignment.",
+				},
+			},
+		},
+		&RichTextBlock{
+			HorizontalAlignment: "right",
+			Inlines: []*TextRun{
+				{
+					Text: "Rich text blocks also support right alignment.",
+				},
+			},
+		},
+	}, []Node{}).WithVersion(Version12).WithSchema(DefaultSchema)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != richCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", richCardJSON, got)
+	}
+}
+
 func mustReadFile(path string) string {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

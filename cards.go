@@ -28,6 +28,10 @@ const (
 	ImageType = "Image"
 	// MediaType is type for Media
 	MediaType = "Media"
+	// RichTextBlockType is type for RichTextBlock
+	RichTextBlockType = "RichTextBlock"
+	// TextRunType is type for TextRun
+	TextRunType = "TextRun"
 	// ContainerType is type for container
 	ContainerType = "Container"
 	// ColumnSetType is type for ColumnSet
