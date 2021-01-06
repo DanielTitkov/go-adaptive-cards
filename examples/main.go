@@ -20,7 +20,9 @@ func main() {
 				},
 			},
 		},
-	}, []cards.Node{})
+	}, []cards.Node{}).
+		WithSchema(cards.DefaultSchema).
+		WithVersion(cards.Version12)
 
 	s, err := c.StringIndent("", "    ")
 	if err != nil {
