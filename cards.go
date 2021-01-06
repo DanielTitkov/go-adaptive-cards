@@ -22,16 +22,18 @@ const (
 
 	// AdaptiveCardType is general card type
 	AdaptiveCardType = "AdaptiveCard"
-	// ContainerType is type for container
-	ContainerType = "Container"
 	// TextBlockType is type for text block
 	TextBlockType = "TextBlock"
+	// ImageType is type for Image
+	ImageType = "Image"
+	// MediaType is type for Media
+	MediaType = "Media"
+	// ContainerType is type for container
+	ContainerType = "Container"
 	// ColumnSetType is type for ColumnSet
 	ColumnSetType = "ColumnSet"
 	// ColumnType is type for Column
 	ColumnType = "Column"
-	// ImageType is type for Image
-	ImageType = "Image"
 	// FactSetType is type for FactSet
 	FactSetType = "FactSet"
 	// ActionShowCardType is type for Action.ShowCard

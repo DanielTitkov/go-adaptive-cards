@@ -62,3 +62,48 @@ func (n *Image) prepare() error {
 	}
 	return nil
 }
+
+// Media displays a media player for audio or video content.
+type Media struct {
+	Type    string         `json:"type"`    // required, must be Media
+	Sources []*MediaSource `json:"sources"` // required
+	Poster  string         `json:"poster,omitempty"`
+	AltText string         `json:"altText,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n *Media) prepare() error {
+	n.Type = MediaType
+	if len(n.Sources) < 1 {
+		return errors.New("Media must have sources")
+	}
+	for _, s := range n.Sources {
+		if err := s.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// MediaSource defines a source for a Media element.
+type MediaSource struct {
+	MimeType string `json:"mimeType"` // required
+	URL      string `json:"url"`      // required
+}
+
+func (m *MediaSource) prepare() error {
+	if m.MimeType == "" {
+		return errors.New("MediaSource must have mime type")
+	}
+	if m.URL == "" {
+		return errors.New("MediaSource must have url")
+	}
+	return nil
+}

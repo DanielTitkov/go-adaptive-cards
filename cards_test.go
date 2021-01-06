@@ -416,6 +416,56 @@ func TestInvalidCard(t *testing.T) {
 	}
 }
 
+func TestMedia(t *testing.T) {
+	mediaCardJSON := mustReadFile("./test/media.json")
+	c := New([]Node{
+		&TextBlock{
+			Text: "Media supports **audio** and **video** content!",
+			Wrap: TruePtr(),
+		},
+		&TextBlock{
+			Text:                "Video",
+			HorizontalAlignment: "center",
+			Spacing:             "medium",
+			Separator:           TruePtr(),
+			Size:                "large",
+		},
+		&Media{
+			Poster:  "https://adaptivecards.io/content/poster-video.png",
+			AltText: "Adaptive Cards overview video",
+			Sources: []*MediaSource{
+				{
+					MimeType: "video/mp4",
+					URL:      "https://adaptivecardsblob.blob.core.windows.net/assets/AdaptiveCardsOverviewVideo.mp4",
+				},
+			},
+		},
+		&TextBlock{
+			Text:                "Audio",
+			HorizontalAlignment: "center",
+			Separator:           TruePtr(),
+			Size:                "large",
+		},
+		&Media{
+			Poster:  "https://adaptivecards.io/content/poster-audio.jpg",
+			AltText: "Adaptive Cards overview audio",
+			Sources: []*MediaSource{
+				{
+					MimeType: "audio/mpeg",
+					URL:      "https://adaptivecardsblob.blob.core.windows.net/assets/AdaptiveCardsOverviewVideo.mp3",
+				},
+			},
+		},
+	}, []Node{}).WithVersion(Version11).WithSchema(DefaultSchema)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != mediaCardJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", mediaCardJSON, got)
+	}
+}
+
 func mustReadFile(path string) string {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
