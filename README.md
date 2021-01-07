@@ -1,4 +1,4 @@
-[![GoDoc](https://godoc.org/github.com/DanielTitkov/go-adaptive-cards?status.svg)](github.com/DanielTitkov/go-adaptive-cards)
+[![GoDoc](https://godoc.org/github.com/DanielTitkov/go-adaptive-cards?status.svg)](https://godoc.org/github.com/DanielTitkov/go-adaptive-cards)
 
 # go-adaptive-cards
 
