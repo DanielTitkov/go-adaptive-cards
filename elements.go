@@ -42,7 +42,7 @@ type Image struct {
 	BackgroundColor     string `json:"backgroundColor,omitempty"`
 	Height              string `json:"height,omitempty"` // default "auto"
 	HorizontalAlignment string `json:"horizontalAlignment,omitempty"`
-	SelectAction        []Node `json:"selectAction,omitempty"`
+	SelectAction        Node   `json:"selectAction,omitempty"`
 	Size                string `json:"size,omitempty"`
 	Style               string `json:"style,omitempty"` // "default" or "person"
 	Width               string `json:"width,omitempty"`

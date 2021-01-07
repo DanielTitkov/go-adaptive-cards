@@ -76,7 +76,7 @@ type Card struct {
 	Schema                   string           `json:"$schema,omitempty"`
 	Body                     []Node           `json:"body,omitempty"`
 	Actions                  []Node           `json:"actions,omitempty"`
-	SelectAction             []Node           `json:"selectAction,omitempty"`
+	SelectAction             Node             `json:"selectAction,omitempty"`
 	FallbackText             string           `json:"fallbackText,omitempty"`
 	BackgroundImage          *BackgroundImage `json:"backgroundImage,omitempty"`
 	MinHeight                string           `json:"minHeight,omitempty"`
@@ -184,7 +184,7 @@ type NestedCard struct {
 	Schema                   string           `json:"$schema,omitempty"`
 	Body                     []Node           `json:"body,omitempty"`
 	Actions                  []Node           `json:"actions,omitempty"`
-	SelectAction             []Node           `json:"selectAction,omitempty"`
+	SelectAction             Node             `json:"selectAction,omitempty"`
 	FallbackText             string           `json:"fallbackText,omitempty"`
 	BackgroundImage          *BackgroundImage `json:"backgroundImage,omitempty"`
 	MinHeight                string           `json:"minHeight,omitempty"`

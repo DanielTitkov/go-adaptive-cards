@@ -6,8 +6,21 @@ import (
 
 // Container groups items together.
 type Container struct {
-	Type  string `json:"type"`  // required
-	Items []Node `json:"items"` // required
+	Type            string          `json:"type"`  // required
+	Items           []Node          `json:"items"` // required
+	SelectAction    Node            `json:"selectAction,omitempty"`
+	Style           string          `json:"style,omitempty"`
+	Bleed           *bool           `json:"bleed,omitempty"`
+	BackgroundImage BackgroundImage `json:"backgroundImage,omitempty"`
+	MinHeight       string          `json:"minHeight,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
 }
 
 func (n *Container) prepare() error {
@@ -26,10 +39,10 @@ func (n *Container) prepare() error {
 // ColumnSet divides a region into Columns,
 // allowing elements to sit side-by-side.
 type ColumnSet struct {
-	Type                string    `json:"type"`              // required
-	Columns             []*Column `json:"columns,omitempty"` // TODO: maybe make it a Node
-	SelectAction        []Node    `json:"selectAction,omitempty"`
-	Style               []Node    `json:"style,omitempty"` // FIXME
+	Type                string    `json:"type"` // required
+	Columns             []*Column `json:"columns,omitempty"`
+	SelectAction        Node      `json:"selectAction,omitempty"`
+	Style               string    `json:"style,omitempty"`
 	Bleed               *bool     `json:"bleed,omitempty"`
 	MinHeight           string    `json:"minHeight,omitempty"`
 	HorizontalAlignment string    `json:"horizontalAlignment,omitempty"`
@@ -62,8 +75,8 @@ type Column struct {
 	MinHeight                string           `json:"minHeight,omitempty"`
 	Separator                *bool            `json:"separator,omitempty"`
 	Spacing                  string           `json:"spacing,omitempty"`
-	SelectAction             []Node           `json:"selectAction,omitempty"`
-	Style                    []Node           `json:"style,omitempty"` // FIXME
+	SelectAction             Node             `json:"selectAction,omitempty"`
+	Style                    string           `json:"style,omitempty"`
 	VerticalContentAlignment string           `json:"verticalContentAlignment,omitempty"`
 	Width                    string           `json:"width,omitempty"`
 	// inherited
