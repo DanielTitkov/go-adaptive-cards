@@ -6,13 +6,13 @@ import (
 
 // Container groups items together.
 type Container struct {
-	Type            string          `json:"type"`  // required
-	Items           []Node          `json:"items"` // required
-	SelectAction    Node            `json:"selectAction,omitempty"`
-	Style           string          `json:"style,omitempty"`
-	Bleed           *bool           `json:"bleed,omitempty"`
-	BackgroundImage BackgroundImage `json:"backgroundImage,omitempty"`
-	MinHeight       string          `json:"minHeight,omitempty"`
+	Type            string           `json:"type"`  // required
+	Items           []Node           `json:"items"` // required
+	SelectAction    Node             `json:"selectAction,omitempty"`
+	Style           string           `json:"style,omitempty"`
+	Bleed           *bool            `json:"bleed,omitempty"`
+	BackgroundImage *BackgroundImage `json:"backgroundImage,omitempty"`
+	MinHeight       string           `json:"minHeight,omitempty"`
 	// inherited
 	Fallback  []Node            `json:"fallback,omitempty"`
 	Height    string            `json:"height,omitempty"`
