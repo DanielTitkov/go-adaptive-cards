@@ -1,3 +1,5 @@
+[![GoDoc](https://godoc.org/github.com/DanielTitkov/go-adaptive-cards?status.svg)](github.com/DanielTitkov/go-adaptive-cards)
+
 # go-adaptive-cards
 
 Go package for creating adaptive cards in Go.
