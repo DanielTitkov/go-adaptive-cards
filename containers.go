@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// ActionSet displays a set of actions.
 type ActionSet struct {
 	Type    string `json:"type"` // required
 	Actions []Node `json:"actions,omitempty"`
