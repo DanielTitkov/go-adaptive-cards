@@ -569,6 +569,65 @@ func TestImageSet(t *testing.T) {
 	}
 }
 
+func TestActionSet(t *testing.T) {
+	actionSetJSON := mustReadFile("./test/actionSet.json")
+	c := New([]Node{
+		&TextBlock{
+			Text: "Cards can have action sets in the middle of their body.",
+			Wrap: TruePtr(),
+		},
+		&ActionSet{
+			Type: ActionSetType,
+			Actions: []Node{
+				&ActionShowCard{
+					Type: ActionShowCardType,
+					Card: NestedCard{
+						Type: AdaptiveCardType,
+						Body: []Node{
+							&TextBlock{
+								Type: TextBlockType,
+								Text: "This is a show card",
+							},
+						},
+					},
+					Title: "ShowCard",
+				},
+				&ActionOpenURL{
+					Type:  ActionOpenURLType,
+					URL:   "https://adaptivecards.io",
+					Title: "OpenUrl",
+				},
+			},
+		},
+	}, []Node{
+		&ActionShowCard{
+			Type: ActionShowCardType,
+			Card: NestedCard{
+				Type: AdaptiveCardType,
+				Body: []Node{
+					&TextBlock{
+						Type: TextBlockType,
+						Text: "This is a show card",
+					},
+				},
+			},
+			Title: "ShowCard",
+		},
+		&ActionOpenURL{
+			Type:  ActionOpenURLType,
+			URL:   "https://adaptivecards.io",
+			Title: "OpenUrl",
+		},
+	}).WithVersion(Version1).WithSchema(DefaultSchema)
+	got, err := c.StringIndent("", "  ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != actionSetJSON {
+		t.Errorf("expected:\n%s\nbut got:\n%s", actionSetJSON, got)
+	}
+}
+
 func mustReadFile(path string) string {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {

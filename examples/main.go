@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	cards "github.com/DanielTitkov/go-adaptive-cards"
+	cards "github.com/wertyfrancis/go-adaptive-cards"
 )
 
 func main() {

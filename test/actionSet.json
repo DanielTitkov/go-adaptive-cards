@@ -1,0 +1,55 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Cards can have action sets in the middle of their body.",
+      "wrap": true
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.ShowCard",
+          "card": {
+            "type": "AdaptiveCard",
+            "body": [
+              {
+                "type": "TextBlock",
+                "text": "This is a show card"
+              }
+            ]
+          },
+          "title": "ShowCard"
+        },
+        {
+          "type": "Action.OpenUrl",
+          "url": "https://adaptivecards.io",
+          "title": "OpenUrl"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "This is a show card"
+          }
+        ]
+      },
+      "title": "ShowCard"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "url": "https://adaptivecards.io",
+      "title": "OpenUrl"
+    }
+  ]
+}

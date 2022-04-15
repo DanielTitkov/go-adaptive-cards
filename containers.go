@@ -4,6 +4,33 @@ import (
 	"errors"
 )
 
+// ActionSet displays a set of actions.
+type ActionSet struct {
+	Type    string `json:"type"` // required
+	Actions []Node `json:"actions,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n *ActionSet) prepare() error {
+	n.Type = ActionSetType
+	if len(n.Actions) < 1 {
+		return errors.New("ActionSet must have elements")
+	}
+	for _, node := range n.Actions {
+		if err := node.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // Container groups items together.
 type Container struct {
 	Type            string           `json:"type"`  // required

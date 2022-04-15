@@ -32,6 +32,8 @@ const (
 	RichTextBlockType = "RichTextBlock"
 	// TextRunType is type for TextRun
 	TextRunType = "TextRun"
+	// ActionSetType is type for ActionSet
+	ActionSetType = "ActionSet"
 	// ContainerType is type for container
 	ContainerType = "Container"
 	// ColumnSetType is type for ColumnSet
