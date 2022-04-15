@@ -1,3 +1,3 @@
-module github.com/wertyfrancis/go-adaptive-cards
+module github.com/DanielTitkov/go-adaptive-cards
 
-go 1.13
+go 1.16
