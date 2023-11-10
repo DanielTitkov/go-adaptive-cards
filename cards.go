@@ -8,15 +8,16 @@ import (
 const (
 	// DefaultSchema is card schema value by default
 	DefaultSchema = "http://adaptivecards.io/schemas/adaptive-card.json"
-	// Version1 is cards verstion 1.0
+	// Version1 is cards version 1.0
 	Version1 = "1.0"
-	// Version11 is cards verstion 1.1
+	// Version11 is cards version 1.1
 	Version11 = "1.1"
-	// Version12 is cards verstion 1.2
+	// Version12 is cards version 1.2
 	Version12 = "1.2"
-	// Version13 is cards verstion 1.3.
-	// Warning maybe not supported by bot framework!
+	// Version13 is cards version 1.3.
 	Version13 = "1.3"
+	// Version14 is cards version 1.4.
+	Version14 = "1.4"
 
 	// Types
 
@@ -48,6 +49,8 @@ const (
 	ActionShowCardType = "Action.ShowCard"
 	// ActionSubmitType is type for Action.Submit
 	ActionSubmitType = "Action.Submit"
+	// ActionExecuteType is type for Action.Execute
+	ActionExecuteType = "Action.Execute"
 	// ActionOpenURLType is type for Action.OpenUrl
 	ActionOpenURLType = "Action.OpenUrl"
 	// ActionToggleVisibilityType is type for Action.ToggleVisibility

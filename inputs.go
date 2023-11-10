@@ -31,6 +31,9 @@ func (n *InputText) prepare() error {
 	if n.ID == "" {
 		return errors.New("InputText id is required")
 	}
+	if err := n.InlineAction.prepare(); err != nil {
+		return err
+	}
 	return nil
 }
 

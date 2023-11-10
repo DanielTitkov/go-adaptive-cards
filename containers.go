@@ -76,6 +76,7 @@ type ColumnSet struct {
 	// inherited
 	Fallback  []Node            `json:"fallback,omitempty"`
 	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
 	Spacing   string            `json:"spacing,omitempty"`
 	ID        string            `json:"id,omitempty"`
 	IsVisible *bool             `json:"isVisible,omitempty"`
