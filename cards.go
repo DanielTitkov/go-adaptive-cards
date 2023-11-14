@@ -67,6 +67,11 @@ const (
 	InputChoiceSetType = "Input.ChoiceSet"
 	// InputToggleType is type for Input.Toggle
 	InputToggleType = "Input.Toggle"
+
+	TableType       = "Table"
+	TableColumnType = "TableColumnDefinition"
+	TableRowType    = "TableRow"
+	TableCellType   = "TableCell"
 )
 
 // Node is card element
