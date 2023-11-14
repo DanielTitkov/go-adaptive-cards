@@ -159,3 +159,82 @@ func (t *TextRun) prepare() error {
 	}
 	return nil
 }
+
+type Table struct {
+	Type              string        `json:"type"`
+	Columns           []TableColumn `json:"columns,omitempty"`
+	Rows              []TableRow    `json:"rows,omitempty"`
+	GridStyle         *string       `json:"gridStyle,omitempty"`
+	FirstRowAsHeaders *bool         `json:"firstRowAsHeaders,omitempty"`
+	// inherited
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Height    string            `json:"height,omitempty"`
+	Separator *bool             `json:"separator,omitempty"`
+	Spacing   string            `json:"spacing,omitempty"`
+	ID        string            `json:"id,omitempty"`
+	IsVisible *bool             `json:"isVisible,omitempty"`
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (t *Table) prepare() error {
+	t.Type = TableType
+	if len(t.Rows) == 0 {
+		return errors.New("Table must have rows")
+	}
+	if len(t.Columns) == 0 {
+		return errors.New("Table must have columns")
+	}
+	for idx := range t.Rows {
+		if err := t.Rows[idx].prepare(); err != nil {
+			return err
+		}
+	}
+	for idx := range t.Columns {
+		if err := t.Columns[idx].prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+type TableColumn struct {
+	Type                           string  `json:"type"`
+	Width                          *int    `json:"width,omitempty"`
+	HorizontalCellContentAlignment *string `json:"horizontalCellContentAlignment,omitempty"`
+	VerticalCellContentAlignment   *string `json:"verticalCellContentAlignment,omitempty"`
+}
+
+func (t *TableColumn) prepare() error {
+	t.Type = TableColumnType
+	return nil
+}
+
+type TableRow struct {
+	Type  string      `json:"type"`
+	Cells []TableCell `json:"cells,omitempty"`
+}
+
+func (t *TableRow) prepare() error {
+	t.Type = TableRowType
+	for idx := range t.Cells {
+		if err := t.Cells[idx].prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+type TableCell struct {
+	Type  string `json:"type"`
+	Items []Node `json:"items,omitempty"`
+}
+
+func (t *TableCell) prepare() error {
+	t.Type = TableCellType
+	for idx := range t.Items {
+		if err := t.Items[idx].prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -42,6 +42,43 @@ type ActionSubmit struct {
 
 func (n *ActionSubmit) prepare() error {
 	n.Type = ActionSubmitType
+	for _, e := range n.Fallback {
+		if err := e.prepare(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// ActionExecute gathers input fields, merges with optional data field, and sends an event to the client.
+// Clients process the event by sending an Invoke activity of type adaptiveCard/action to the target Bot.
+// See https://adaptivecards.io/explorer/Action.Execute.html for more details.
+//
+// It requires a minimum version of 1.4.
+type ActionExecute struct {
+	Type             string      `json:"type"` // required
+	Verb             string      `json:"verb,omitempty"`
+	Data             interface{} `json:"data,omitempty"`
+	AssociatedInputs string      `json:"associatedInputs,omitempty"`
+
+	// inherited
+	Title     string            `json:"title,omitempty"`
+	IconURL   string            `json:"iconUrl,omitempty"`
+	Style     string            `json:"style,omitempty"`
+	Tooltip   string            `json:"tooltip,omitempty"`
+	IsEnabled *bool             `json:"isEnabled,omitempty"`
+	Fallback  []Node            `json:"fallback,omitempty"`
+	Mode      string            `json:"mode,omitempty"` // primary, secondary
+	Requires  map[string]string `json:"requires,omitempty"`
+}
+
+func (n *ActionExecute) prepare() error {
+	n.Type = ActionExecuteType
+	for _, e := range n.Fallback {
+		if err := e.prepare(); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
